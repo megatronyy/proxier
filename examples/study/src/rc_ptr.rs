@@ -6,6 +6,7 @@
     3、Rc 只能用于同一线程内部，不能用于线程之间的对象共享（不能跨线程传递）；
     4、Rc 实际上是一个指针，它不影响包裹对象的方法调用形式（即不存在先解开包裹再调用值这一说）。
 */
+use std::ops::Deref;
 use std::rc::Rc;
 
 #[test]
@@ -26,13 +27,13 @@ fn test_rc_ptr() {
    3、Weak<T> 可以使用 upgrade 方法转换成 Option<Rc<T>>，如果资源已经被释放，则 Option 值为 None；
    4、常用于解决循环引用的问题。
  */
-use std::rc::Weak;
+// use std::rc::Weak;
 
 #[test]
 fn test_weak_ptr() {
     let five = Rc::new(5);
     let weak_five = Rc::downgrade(&five);
-    left strong_five: Option<Rc<_>> = weak_five.upgrade();
+    let _strong_five: Option<Rc<_>> = weak_five.upgrade();
 }
 
 /**
@@ -58,7 +59,7 @@ fn test_arc_ptr() {
         let local_numbers = shard_numbers.clone();
 
         thread::spawn(move || {
-            let local_numbers = &local_numbers[..];
+            let _local_numbers = &local_numbers[..];
         });
     }
 }
@@ -69,7 +70,7 @@ fn test_arc_ptr() {
 
     2、意义与用法与 Rc Weak 基本一致，不同的点是这是多线程的版本。故不再赘述。
  */
-use std::sync::Weak;
+// use std::sync::Weak;
 
 #[test]
 fn test_arc_weak_ptr(){
