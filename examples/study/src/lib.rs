@@ -4,6 +4,7 @@
 mod tree;
 mod rc_ptr;
 mod destruct;
+mod stack_return;
 
 #[cfg(test)]
 mod tests {
