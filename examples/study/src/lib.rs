@@ -3,6 +3,7 @@
 
 mod tree;
 mod rc_ptr;
+mod destruct;
 
 #[cfg(test)]
 mod tests {
