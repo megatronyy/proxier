@@ -5,6 +5,8 @@ mod tree;
 mod rc_ptr;
 mod destruct;
 mod stack_return;
+mod cells;
+mod threads;
 
 #[cfg(test)]
 mod tests {
