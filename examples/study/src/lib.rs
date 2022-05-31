@@ -7,6 +7,7 @@ mod destruct;
 mod stack_return;
 mod cells;
 mod threads;
+mod mems;
 
 #[cfg(test)]
 mod tests {
