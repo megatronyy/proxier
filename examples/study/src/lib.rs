@@ -8,6 +8,7 @@ mod stack_return;
 mod cells;
 mod threads;
 mod mems;
+mod traits;
 
 #[cfg(test)]
 mod tests {
