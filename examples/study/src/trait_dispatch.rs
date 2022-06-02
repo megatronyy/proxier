@@ -37,12 +37,12 @@ fn static_dispatch<T>(t: &T) where T: Bar {
     · Send trait，用来标识可以跨线程安全通信的类型。
     · Sync trait，用来标识可以在线程间安全共享引用的类型。
 */
-fn dynamic_dispatch(t: &dyn Bar){
+fn dynamic_dispatch(t: &dyn Bar) {
     t.baz();
 }
 
 #[test]
-fn test_traits(){
+fn test_traits() {
     let foo = Foo;
     static_dispatch(&foo);
     dynamic_dispatch(&foo);
