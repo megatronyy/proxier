@@ -1,11 +1,17 @@
 #![deny(rust_2018_idioms, clippy::disallowed_methods, clippy::disallowed_types)]
 #![forbid(unsafe_code)]
 
-mod tree;
-mod rc_ptr;
-mod destruct;
+mod struct_tree;
+mod lib_smart_ptr;
+mod trait_drop;
 mod stack_return;
-mod life_cycle;
+mod lib_cells;
+mod lib_threads;
+mod lib_mems;
+mod trait_dispatch;
+mod operator_as;
+mod trait_from_into;
+mod trait_deref;
 
 #[cfg(test)]
 mod tests {
