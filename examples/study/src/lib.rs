@@ -5,6 +5,7 @@ mod tree;
 mod rc_ptr;
 mod destruct;
 mod stack_return;
+mod life_cycle;
 
 #[cfg(test)]
 mod tests {
