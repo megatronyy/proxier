@@ -13,6 +13,7 @@ mod operator_as;
 mod trait_from_into;
 mod trait_deref;
 mod macros;
+mod tokio_select;
 
 #[cfg(test)]
 mod tests {

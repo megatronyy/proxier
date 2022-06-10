@@ -310,6 +310,9 @@ dependencies = [
 [[package]]
 name = "study"
 version = "0.1.0"
+dependencies = [
+ "tokio",
+]
 
 [[package]]
 name = "syn"
