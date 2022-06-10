@@ -29,7 +29,7 @@ impl Bird {
     }
 
     pub fn pass_return(foo: Bird) -> Bird {
-        foo;
+        drop(foo);
         return Bird { n: 142 }; //在栈上新生成一个bird并返回
     }
 }

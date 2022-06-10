@@ -6,9 +6,9 @@
 #[test]
 fn test_as_conv(){
     let a = 1u32;
-    let b = a as u64;
+    let _b = a as u64;
     let c = 3u64;
-    let d = c as u32;
+    let _d = c as u32;
 }
 
 #[test]

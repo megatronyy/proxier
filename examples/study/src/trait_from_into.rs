@@ -25,7 +25,7 @@ impl Person {
 
 #[test]
 fn test_trait_into() {
-    let person = Person::new("Alex");
+    let _person = Person::new("Alex");
     let person = Person::new("Alex".to_string());
     println!("{:?}", person);
 }
