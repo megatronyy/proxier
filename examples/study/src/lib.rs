@@ -12,6 +12,7 @@ mod trait_dispatch;
 mod operator_as;
 mod trait_from_into;
 mod trait_deref;
+mod macros;
 
 #[cfg(test)]
 mod tests {
