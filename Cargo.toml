@@ -5,7 +5,8 @@ members = [
     "examples/study",
     "pkg/util",
     "pkg/core",
-    "cmd"
+    "pkg/dns/name",
+    "pkg/dns"
 ]
 
 # Debug symbols end up chewing up several GB of disk space, so better to just
