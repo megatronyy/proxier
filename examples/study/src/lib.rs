@@ -15,6 +15,7 @@ mod trait_deref;
 mod std_macros;
 mod lib_tokio;
 mod std_lifetime;
+mod std_closure;
 
 #[cfg(test)]
 mod tests {
