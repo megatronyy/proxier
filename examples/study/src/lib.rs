@@ -2,17 +2,19 @@
 #![forbid(unsafe_code)]
 
 mod struct_tree;
-mod lib_smart_ptr;
+mod std_smart_ptr;
 mod trait_drop;
 mod stack_return;
-mod lib_cells;
-mod lib_threads;
-mod lib_mems;
+mod std_cells;
+mod std_threads;
+mod std_mems;
 mod trait_dispatch;
 mod operator_as;
 mod trait_from_into;
 mod trait_deref;
-mod traits;
+mod std_macros;
+mod lib_tokio;
+mod std_lifetime;
 
 #[cfg(test)]
 mod tests {
