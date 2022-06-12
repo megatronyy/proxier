@@ -1,3 +1,5 @@
+#[warn(unused_imports)]
+
 use std::thread;
 
 // #[test]
