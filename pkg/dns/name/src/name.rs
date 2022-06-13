@@ -1,5 +1,5 @@
 use std::{fmt, ops::Deref};
-use std::fmt::{Debug, Formatter};
+use std::ascii::AsciiExt;
 use thiserror::Error;
 
 /// A DNS Name suitable for use in the TLS Server Name Indication (SNI)
@@ -48,7 +48,7 @@ impl Name {
 }
 
 impl fmt::Display for Name {
-    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         self.0.fmt(f)
     }
 }
@@ -78,7 +78,7 @@ impl<'a> NameRef<'a> {
     /// syntactically-valid DNS name.
     pub fn try_from_ascii(dns_name: &'a [u8]) -> Result<Self, InvalidName> {
         if !is_vaild_reference_dns_id(untrusted::Input::from(dns_name)) {
-            Err(InvalidName)
+            return Err(InvalidName);
         }
         let s = std::str::from_utf8(dns_name).map_err(|_| InvalidName)?;
         Ok(Self(s))
