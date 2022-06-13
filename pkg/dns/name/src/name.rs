@@ -1,4 +1,5 @@
 use std::{fmt, ops::Deref};
+use std::fmt::{Debug, Formatter};
 use thiserror::Error;
 
 /// A DNS Name suitable for use in the TLS Server Name Indication (SNI)
@@ -21,21 +22,82 @@ pub struct InvalidName;
 
 impl Name {
     pub fn try_from_ascii(n: &[u8]) -> Result<Self, InvalidName> {
-        //let n =
-        todo!()
+        let n = NameRef::try_from_ascii(n)?;
+        Ok(n.to_owned())
+    }
+
+    #[inline]
+    pub fn as_ref(&self) -> NameRef<'_> { NameRef(self.0.as_str()) }
+
+    #[inline]
+    pub fn as_str(&self) -> &str { self.0.as_str() }
+
+    #[inline]
+    pub fn as_bytes(&self) -> &[u8] {
+        self.0.as_bytes()
+    }
+
+    #[inline]
+    pub fn is_localhost(&self) -> bool {
+        self.as_str().eq_ignore_ascii_case("localhost.")
+    }
+
+    pub fn without_trailing_dot(&self) -> &str {
+        self.as_str().trim_end_matches(".")
     }
 }
 
+impl fmt::Display for Name {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        self.0.fmt(f)
+    }
+}
+
+impl std::str::FromStr for Name {
+    type Err = InvalidName;
+
+    #[inline]
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        Self::try_from_ascii(s.as_bytes())
+    }
+}
+
+impl Deref for Name {
+    type Target = str;
+
+    #[inline]
+    fn deref(&self) -> &Self::Target {
+        self.0.as_str()
+    }
+}
+
+// === impl NameRef ===
+
 impl<'a> NameRef<'a> {
+    /// Constructs a `NameRef` from the given input if the input is a
+    /// syntactically-valid DNS name.
     pub fn try_from_ascii(dns_name: &'a [u8]) -> Result<Self, InvalidName> {
-        todo!()
+        if !is_vaild_reference_dns_id(untrusted::Input::from(dns_name)) {
+            Err(InvalidName)
+        }
+        let s = std::str::from_utf8(dns_name).map_err(|_| InvalidName)?;
+        Ok(Self(s))
+    }
+
+    pub fn try_from_ascii_str(n: &'a str) -> Result<Self, InvalidName> {
+        Self::try_from_ascii(n.as_bytes())
+    }
+
+    /// Constructs a `Name` from this `NameRef`
+    pub fn to_owned(self) -> Name {
+        Name(self.as_str().to_ascii_lowercase())
     }
 }
 
 // === Helpers ===
 
 fn is_vaild_reference_dns_id(hostname: untrusted::Input<'_>) -> bool {
-    todo!()
+    is_vaild__dns_id(hostname)
 }
 
 fn is_vaild__dns_id(hostname: untrusted::Input<'_>) -> bool {
