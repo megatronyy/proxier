@@ -1,5 +1,7 @@
+#[warn(sed_imports)]
+#[warn(unreachable_patterns)]
+
 use std::{fmt, ops::Deref};
-use std::ascii::AsciiExt;
 use thiserror::Error;
 
 /// A DNS Name suitable for use in the TLS Server Name Indication (SNI)
@@ -237,6 +239,7 @@ mod tests {
         ];
 
         for &(n, expected_result) in CASES {
+            /// n.parse::<Name>, turbofish语法(::<>)，为parse函数绑定泛型参数name
             assert!(n.parse::<Name>().is_ok() == expected_result, "{}", n);
         }
     }
