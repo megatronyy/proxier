@@ -117,7 +117,7 @@ impl<T> LinkedList<T> {
         self.head.map(|head_ptr| unsafe {
             let old_head = Box::from_raw(head_ptr.as_ptr());
             match old_head.next {
-                Some(mut next_ptr) => next_ptr.as_mut().prev = None,
+                Some(mut next_ptr) => next_ptr.as_mut().perv = None,
                 None => self.tail = None,
             }
             self.head = old_head.next;
@@ -137,6 +137,60 @@ impl<T> LinkedList<T> {
             self.length -= 1;
             old_tail.val
         })
+    }
+
+    fn delete_ith(&mut self, index: u32) -> Option<T> {
+        if self.length < index {
+            panic!("Index out of bounds");
+        }
+
+        if index == 0 || self.head == None {
+            return self.delete_head();
+        }
+
+        if self.length == index {
+            return self.delete_tail();
+        }
+
+        if let Some(mut ith_node) = self.head {
+            for _ in 0..index {
+                unsafe {
+                    match (*ith_node.as_ptr()).next {
+                        None => panic!("Index out of bounds"),
+                        Some(next_ptr) => ith_node = next_ptr,
+                    }
+                }
+            }
+
+            unsafe {
+                let old_ith = Box::from_raw(ith_node.as_ptr());
+                if let Some(mut prev) = old_ith.perv {
+                    prev.as_mut().next = old_ith.next;
+                }
+
+                if let Some(mut next) = old_ith.next {
+                    next.as_mut().perv = old_ith.perv;
+                }
+                self.length -= 1;
+                Some(old_ith.val)
+            }
+        } else {
+            None
+        }
+    }
+
+    pub fn get(&mut self, index: i32) -> Option<&T> {
+        self.get_ith_node(self.head, index)
+    }
+
+    fn get_ith_node(&mut self, node: Option<NonNull<Node<T>>>, index: i32) -> Option<&T> {
+        match node {
+            None => None,
+            Some(next_ptr) => match index {
+                0 => Some(unsafe { &(*next_ptr.as_ptr()).val }),
+                _ => self.get_ith_node(unsafe { (*next_ptr.as_ptr()).next }),
+            },
+        }
     }
 }
 
@@ -167,4 +221,10 @@ impl<T> Display for Node<T>
             None => write!(f, "{}", self.val)
         }
     }
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn insert_at_tail_works() {}
 }
