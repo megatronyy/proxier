@@ -4,6 +4,7 @@
     1、std::ptr::NonNull
     2、std::marker::PhantomData
 */
+use std::fmt::{Display, Formatter};
 use std::marker::PhantomData;
 use std::ptr::NonNull;
 
@@ -71,5 +72,99 @@ impl<T> LinkedList<T> {
         }
         self.tail = node_ptr;
         self.length += 1;
+    }
+
+    pub fn insert_as_ith(&mut self, index: u32, obj: T) {
+        if self.length < index {
+            panic!("Index out of bounds");
+        }
+
+        if index == 0 || self.head == None {
+            self.insert_at_head(obj);
+            return;
+        }
+
+        if self.length == index {
+            self.insert_as_tail(obj);
+            return;
+        }
+
+        if let Some(mut ith_node) = self.head {
+            for _ in 0..index {
+                unsafe {
+                    match ((*ith_node).as_ptr()).next {
+                        None => panic!("Index out of bounds"),
+                        Some(next_ptr) => ith_node = next_ptr,
+                    }
+                }
+            }
+
+            let mut node = Box::new(Node::new(obj));
+            unsafe {
+                node.perv = (*ith_node.as_ptr()).perv;
+                node.next = Some(ith_node);
+                if let Some(p) = (*ith_node.as_ptr()).perv {
+                    let node_ptr = Some(NonNull::new_unchecked(Box::into_raw(node)));
+                    println!("{:?}", (*p.as_ptr()).next);
+                    (*p.as_ptr()).next = node_ptr;
+                    self.length += 1;
+                }
+            }
+        }
+    }
+
+    fn delete_head(&mut self) -> Option<T> {
+        self.head.map(|head_ptr| unsafe {
+            let old_head = Box::from_raw(head_ptr.as_ptr());
+            match old_head.next {
+                Some(mut next_ptr) => next_ptr.as_mut().prev = None,
+                None => self.tail = None,
+            }
+            self.head = old_head.next;
+            self.length -= 1;
+            old_head.val
+        })
+    }
+
+    fn delete_tail(&mut self) -> Option<T> {
+        self.tail.map(|tail_ptr| unsafe {
+            let old_tail = Box::from_raw(tail_ptr.as_ptr());
+            match old_tail.prev {
+                Some(mut prev) => prev.as_mut().next = None,
+                None => self.head = None,
+            }
+            self.tail = old_tail.prev;
+            self.length -= 1;
+            old_tail.val
+        })
+    }
+}
+
+impl Drop for LinkedList<T> {
+    fn drop(&mut self) {
+        // Pop items until there are none left
+        while self.delete_head().is_some() {}
+    }
+}
+
+impl<T> Display for LinkedList<T>
+    where T: Display
+{
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self.head {
+            Some(node) => write!(f, "{}", unsafe { node.as_ref() }),
+            None => Ok(()),
+        }
+    }
+}
+
+impl<T> Display for Node<T>
+    where T: Display
+{
+    fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+        match self.next {
+            Some(node) => write!(f, "{} {}", self.val, unsafe { node.as_ref() }),
+            None => write!(f, "{}", self.val)
+        }
     }
 }
