@@ -3,6 +3,7 @@ resolver = "2"
 
 members = [
     "examples/study",
+    "examples/algorithm",
     "pkg/util",
     "pkg/core",
     "pkg/dns/name",
