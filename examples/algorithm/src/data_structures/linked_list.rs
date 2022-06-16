@@ -92,7 +92,7 @@ impl<T> LinkedList<T> {
         if let Some(mut ith_node) = self.head {
             for _ in 0..index {
                 unsafe {
-                    match ((*ith_node).as_ptr()).next {
+                    match (*ith_node.as_ptr()).next {
                         None => panic!("Index out of bounds"),
                         Some(next_ptr) => ith_node = next_ptr,
                     }
@@ -129,11 +129,11 @@ impl<T> LinkedList<T> {
     fn delete_tail(&mut self) -> Option<T> {
         self.tail.map(|tail_ptr| unsafe {
             let old_tail = Box::from_raw(tail_ptr.as_ptr());
-            match old_tail.prev {
-                Some(mut prev) => prev.as_mut().next = None,
+            match old_tail.perv {
+                Some(mut perv) => perv.as_mut().next = None,
                 None => self.head = None,
             }
-            self.tail = old_tail.prev;
+            self.tail = old_tail.perv;
             self.length -= 1;
             old_tail.val
         })
@@ -188,13 +188,13 @@ impl<T> LinkedList<T> {
             None => None,
             Some(next_ptr) => match index {
                 0 => Some(unsafe { &(*next_ptr.as_ptr()).val }),
-                _ => self.get_ith_node(unsafe { (*next_ptr.as_ptr()).next }),
+                _ => self.get_ith_node(unsafe { (*next_ptr.as_ptr()).next }, index),
             },
         }
     }
 }
 
-impl Drop for LinkedList<T> {
+impl<T> Drop for LinkedList<T> {
     fn drop(&mut self) {
         // Pop items until there are none left
         while self.delete_head().is_some() {}
@@ -225,6 +225,31 @@ impl<T> Display for Node<T>
 
 #[cfg(test)]
 mod tests {
+    use crate::data_structures::linked_list::LinkedList;
+
     #[test]
-    fn insert_at_tail_works() {}
+    fn insert_at_tail_works() {
+        let mut list = LinkedList::<i32>::new();
+        let second_value = 2;
+        list.insert_as_tail(1);
+        list.insert_as_tail(second_value);
+        println!("Linked List is {}", list);
+        match list.get(1) {
+            Some(val) => assert_eq!(*val, second_value),
+            None => panic!("Expected to find {} as index 1", second_value),
+        }
+    }
+
+    #[test]
+    fn insert_at_head_works() {
+        let mut list = LinkedList::<i32>::new();
+        let second_value = 2;
+        list.insert_at_head(1);
+        list.insert_at_head(second_value);
+        println!("Linked List is {}", list);
+        match list.get(0) {
+            Some(val) => assert_eq!(*val, second_value),
+            None => panic!("Expected to find {} at index 0", second_value),
+        }
+    }
 }
