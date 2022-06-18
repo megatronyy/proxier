@@ -1,5 +1,5 @@
 #![deny(rust_2018_idioms, clippy::disallowed_methods, clippy::disallowed_types)]
-#![forbid(unsafe_code)]
+/// #![forbid(unsafe_code)]
 
 mod struct_tree;
 mod std_smart_ptr;
@@ -16,6 +16,9 @@ mod std_macros;
 mod lib_tokio;
 mod std_lifetime;
 mod std_closure;
+mod unsafe_base;
+mod unsafe_fn;
+mod unsafe_fn_c;
 
 #[cfg(test)]
 mod tests {
