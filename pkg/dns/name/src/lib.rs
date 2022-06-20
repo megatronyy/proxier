@@ -3,6 +3,7 @@ mod suffix;
 
 //从mod name里的类型导入了lib，其它rs可以直接通过：use crate::Name的方式引用
 pub use self::name::{InvalidName, Name, NameRef};
+pub use self::suffix::Suffix;
 
 #[cfg(test)]
 mod tests {
