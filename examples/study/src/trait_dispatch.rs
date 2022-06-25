@@ -15,7 +15,7 @@ fn static_dispatch<T>(t: &T) where T: Bar {
     t.baz();
 }
 
-/*
+/**
     trait本身也是一种类型，但它的类型大小在编译期是无法确定的，
     所以trait对象必须使用指针。
     可以利用引用操作符&或Box＜T＞来制造一个trait 对象。
@@ -36,7 +36,7 @@ fn static_dispatch<T>(t: &T) where T: Bar {
     · Copy trait，用来标识可以按位复制其值的类型。
     · Send trait，用来标识可以跨线程安全通信的类型。
     · Sync trait，用来标识可以在线程间安全共享引用的类型。
-*/
+**/
 fn dynamic_dispatch(t: &dyn Bar) {
     t.baz();
 }

@@ -1,4 +1,4 @@
-//5、调用不安全的函数或方法
+/// 5、调用不安全的函数或方法
 unsafe fn dangerous() {
     println!("do something dangerous");
 }
