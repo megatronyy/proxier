@@ -1,5 +1,5 @@
 [package]
-name = "proxies-dns"
+name = "error"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,8 +7,6 @@ edition = "2021"
 
 [dependencies]
 futures = { version = "0.3", default-features = false }
-proxies-dns-name = { path = "./name" }
+
+[dev-dependencies]
 thiserror = "1"
-tracing = "0.1"
-trust-dns-resolver = "0.21.2"
-tokio = { version = "1", features = ["rt", "sync", "time"] }
