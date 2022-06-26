@@ -19,6 +19,7 @@ mod std_closure;
 mod unsafe_base;
 mod unsafe_fn;
 mod unsafe_fn_c;
+mod lib_structopt;
 
 #[cfg(test)]
 mod tests {
