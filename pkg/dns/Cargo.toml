@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 futures = { version = "0.3", default-features = false }
 proxies-dns-name = { path = "./name" }
+proxies-error = { path = "../error" }
 thiserror = "1"
 tracing = "0.1"
 trust-dns-resolver = "0.21.2"
