@@ -20,6 +20,7 @@ mod unsafe_base;
 mod unsafe_fn;
 mod unsafe_fn_c;
 mod lib_structopt;
+mod std_iterator;
 
 #[cfg(test)]
 mod tests {
