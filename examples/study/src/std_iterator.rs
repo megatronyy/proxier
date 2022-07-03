@@ -3,8 +3,49 @@
 1、外部迭代器
 2、内部迭代器
 3、都在std::iter模块中
-
  */
+
+// === 自定义 MyVec ===
+
+struct MyVec(Vec<i32>);
+
+impl MyVec {
+    fn new() -> MyVec {
+        MyVec(Vec::new())
+    }
+
+    fn add(&mut self, elem: i32) {
+        self.0.push(elem);
+    }
+}
+
+impl FromIterator<i32> for MyVec {
+    fn from_iter<T: IntoIterator<Item=i32>>(iter: T) -> Self {
+        let mut c = MyVec::new();
+        for i in iter {
+            c.add(i);
+        }
+        c
+    }
+}
+
+// === 自定义 MyVec 测试 ===
+#[test]
+fn test_myvec() {
+    let iter = (0..5).into_iter();
+    let c = MyVec::from_iter(iter);
+    assert_eq!(c.0, vec![0, 1, 2, 3, 4]);
+
+    let iter = (0..5).into_iter();
+    let c: MyVec = iter.collect();
+    assert_eq!(c.0, vec![0, 1, 2, 3, 4]);
+
+    let iter = (0..5).into_iter();
+    let c = iter.collect::<MyVec>();
+    assert_eq!(c.0, vec![0, 1, 2, 3, 4]);
+}
+
+// === 迭代器练习 ===
 struct Counter {
     count: usize,
 }
