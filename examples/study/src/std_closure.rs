@@ -37,3 +37,18 @@ fn test_cacher() {
 
     assert_eq!(v1, v2);
 }
+
+#![feature(core_intrinsics)]
+fn print_type_of<T>(_: T){
+    println!("{}", unsafe { std::intrinsics::type_name::<T>() });
+}
+
+#[test]
+fn test_fnonce(){
+    let i = vec![1];
+    let x: Box<dyn FnOnce() -> ()> = Box::new(move || {
+        println!("{:?}", i);
+    });
+    x();
+    println!("{:?}", i);
+}
