@@ -202,10 +202,18 @@ dependencies = [
 [[package]]
 name = "heapsize"
 version = "0.1.0"
+dependencies = [
+ "heapsize_derive",
+]
 
 [[package]]
 name = "heapsize_derive"
 version = "0.1.0"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
 
 [[package]]
 name = "heck"
