@@ -4,9 +4,10 @@ resolver = "2"
 members = [
     "examples/study",
     "examples/algorithm",
-    "examples/simple_proc_macro",
+    "examples/macros/simple_proc_macro",
     "examples/macros/heapsize/heapsize",
     "examples/macros/heapsize/heapsize_derive",
+    "examples/macros/lazy-static/lazy-static",
     "pkg/util",
     "pkg/core",
     "pkg/dns/name",
