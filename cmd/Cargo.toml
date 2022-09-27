@@ -16,5 +16,11 @@ futures = { version = "0.3", default-features = false }
 num_cpus = { version = "1", optional = true }
 tracing = "0.1"
 
+#[target.'cfg(unix)'.dependencies]
+#libc = "0.2.70"
+#
+#[target.'cfg(windows)'.dependencies]
+#wepoll-binding = "2.0.2"
+
 [target.x86_64-unknown-linux-gnu.dependencies]
 jemallocator = { version = "0.5" }

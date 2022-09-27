@@ -4,6 +4,7 @@ resolver = "2"
 members = [
     "examples/study",
     "examples/algorithm",
+    "examples/simple_proc_macro",
     "pkg/util",
     "pkg/core",
     "pkg/dns/name",
