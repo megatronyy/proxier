@@ -2,7 +2,7 @@
 resolver = "2"
 
 members = [
-    "examples/study",
+    "examples/basics",
     "examples/algorithm",
     "examples/macros/simple_proc_macro",
     "examples/macros/heapsize/heapsize",
