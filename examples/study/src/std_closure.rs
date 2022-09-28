@@ -38,10 +38,10 @@ fn test_cacher() {
     assert_eq!(v1, v2);
 }
 
-#![feature(core_intrinsics)]
-fn print_type_of<T>(_: T){
-    println!("{}", unsafe { std::intrinsics::type_name::<T>() });
-}
+// #![feature(core_intrinsics)]
+// fn print_type_of<T>(_: T){
+//     println!("{}", unsafe { std::intrinsics::type_name::<T>() });
+// }
 
 #[test]
 fn test_fnonce(){
@@ -50,5 +50,5 @@ fn test_fnonce(){
         println!("{:?}", i);
     });
     x();
-    println!("{:?}", i);
+    // println!("{:?}", i);
 }

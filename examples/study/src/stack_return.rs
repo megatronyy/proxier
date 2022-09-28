@@ -13,6 +13,7 @@ rust在返回值传递上的最大问题其实是默认栈上分配空间导致�
 示例代码如下：
 */
 
+#[derive(Debug)]
 struct Bird {
     pub n: i32,
 }
@@ -30,9 +31,9 @@ impl Bird {
         }
     }
 
-    pub fn pass_return(foo: Bird) -> Bird {
-        drop(foo);
-        return Bird { n: 142 }; //在栈上新生成一个bird并返回
+    pub fn pass_return(/*foo: Bird*/) -> Bird {
+        //foo;
+        Bird { n: 142 } //在栈上新生成一个bird并返回
     }
 }
 
@@ -40,5 +41,6 @@ impl Bird {
 fn test_bird() {
     let foo1 = Bird::new(); //实际的栈空间是在父函数种分配的
     println!("{}", foo1.n);
-    let foo2 = Bird::pass_return(foo1);
+    let foo2 = Bird::pass_return();
+    println!("{:?}", foo2)
 }
