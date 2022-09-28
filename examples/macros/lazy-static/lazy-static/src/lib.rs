@@ -122,5 +122,7 @@ pub fn lazy_static(input: TokenStream) -> TokenStream {
         }
     };
 
+    println!("{}", expanded.to_string());
+
     TokenStream::from(expanded)
 }
