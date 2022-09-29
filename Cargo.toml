@@ -9,6 +9,7 @@ members = [
     "examples/macros/heapsize/heapsize_derive",
     "examples/macros/lazy-static/lazy-static",
     "examples/macros/plugin_demo",
+    "examples/nio/smol",
     "pkg/util",
     "pkg/core",
     "pkg/dns/name",
