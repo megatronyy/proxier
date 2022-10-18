@@ -9,6 +9,8 @@ members = [
     "examples/macros/heapsize/heapsize_derive",
     "examples/macros/lazy-static/lazy-static",
     "examples/macros/plugin_demo",
+    "examples/book/asynces",
+    "examples/book/mem",
     "examples/nio/smol",
     "pkg/util",
     "pkg/core",

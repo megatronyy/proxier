@@ -1,0 +1,10 @@
+[package]
+name = "mem"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+winapi = "0.2" # 定义一些有用的类型别名，对所有Windows API的原始的FFI绑定
+kernel32-sys = "0.2" # 提供与KERNEL.DLL交互，包含Windows API库的kernel32的函数定义

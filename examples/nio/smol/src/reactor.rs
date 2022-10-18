@@ -19,7 +19,11 @@ use std::os::windows::io::RawSocket;
 use std::sync::Arc;
 use std::task::Waker;
 use std::time::Instant;
+
+use core::task::Poll;
+
 use concurrent_queue::ConcurrentQueue;
+use futures_util::future;
 use once_cell::sync::Lazy;
 use slab::Slab;
 #[cfg(windows)]
@@ -107,10 +111,79 @@ struct Wakers {
 }
 
 impl Source {
+    /// Re-registers the I/O event to wake the poller.
     pub(crate) fn reregister_io_event(&self) ->
     io::Result<()> {
         let wakers = self.wakers.lock();
+        Reactor::get()
+            .sys
+            .reregister(self.raw, self.key, true, !wakers.writers.is_empty())?;
         Ok(())
+    }
+
+    /// Waits until the I/O source is readable.
+    ///
+    /// This function may occasionally complete even if the I/O source is not readable.
+    pub(crate) async fn readable(&self) -> io::Result<()> {
+        let mut polled = false;
+
+        future::poll_fn(|cx| {
+            if polled {
+                Poll::Ready(Ok(()))
+            } else {
+                let mut wakers = self.wakers.lock();
+
+                if wakers.readers.is_empty() {
+                    Reactor::get()
+                        .sys
+                        .reregister(
+                            self.raw,
+                            self.key,
+                            true,
+                            !wakers.writers.is_empty(),
+                        )?;
+                }
+
+                if wakers.writers.iter().all(|w| !w.will_wake(cx.waker())) {
+                    wakers.readers.push(cx.waker().clone());
+                }
+
+                polled = true;
+                Poll::Pending
+            }
+        }).await
+    }
+
+    /// Waits until the I/O source is writable.
+    ///
+    /// This function may occasionally complete even if the I/O source is not writable.
+    pub(crate) async fn writable(&self) -> io::Result<()> {
+        let mut polled = false;
+
+        future::poll_fn(|cx| {
+            if polled {
+                Poll::Ready(Ok(()))
+            } else {
+                let mut wakers = self.wakers.lock();
+                if wakers.writers.is_empty() {
+                    Reactor::get()
+                        .sys
+                        .reregister(
+                            self.raw,
+                            self.key,
+                            !wakers.readers.is_empty(),
+                            true,
+                        )?;
+                }
+
+                if wakers.writers.iter().all(|w| !w.will_wake(cx.waker())) {
+                    wakers.writers.push(cx.waker().clone());
+                }
+
+                polled = true;
+                Poll::Pending
+            }
+        }).await
     }
 }
 

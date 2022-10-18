@@ -19,8 +19,8 @@ mod std_closure;
 mod unsafe_base;
 mod unsafe_fn;
 mod unsafe_fn_c;
-mod lib_structopt;
 mod std_iterator;
+mod struct_array;
 
 #[cfg(test)]
 mod tests {
