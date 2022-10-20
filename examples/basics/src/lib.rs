@@ -21,6 +21,7 @@ mod unsafe_fn;
 mod unsafe_fn_c;
 mod std_iterator;
 mod struct_array;
+mod lib_structopt;
 
 #[cfg(test)]
 mod tests {
