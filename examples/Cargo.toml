@@ -1,0 +1,17 @@
+[workspace]
+resolver = "2"
+
+members = [
+    "examples/basics",
+    "examples/algorithm",
+    "examples/macros/simple_proc_macro",
+    "examples/macros/heapsize/heapsize",
+    "examples/macros/heapsize/heapsize_derive",
+    "examples/macros/lazy-static/lazy-static",
+    "examples/macros/plugin_demo",
+    "examples/book/asynces",
+    "examples/book/mem",
+    "examples/nio/smol",
+    "examples/web/axum"
+]
+exclude = ["book", "macros", "web", "nio"]
