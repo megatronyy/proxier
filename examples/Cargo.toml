@@ -14,4 +14,3 @@ members = [
     "nio/smol",
     "web/axum"
 ]
-exclude = ["book", "macros", "web", "nio"]
