@@ -55,3 +55,38 @@ fn test_struct_lifetime_A() {
 
     println!("a = {:#?}", a);
 }
+
+/***
+    以下是经典lifetime问题
+ */
+fn insert_value<'r, 'val>(my_vec: &'r mut Vec<&'val i32>, value: &'val i32) {
+    my_vec.push(value);
+}
+
+#[test]
+fn test_insert_value() {
+    let mut my_vec: Vec<&i32> = vec![];
+    let val1 = 1;
+    let val2 = 2;
+
+    insert_value(&mut my_vec, &val1);
+    insert_value(&mut my_vec, &val2);
+
+    println!("{my_vec:?}");
+}
+
+/***
+    lifetime impl trait
+ */
+
+trait Foo {}
+
+impl Foo for &'_ str {}
+
+fn f1<T: Foo>(t: T) -> Box<impl Foo> {
+    Box::new(t)
+}
+
+fn f2<'a, T: Foo + 'a>(t: T) -> Box<dyn Foo + 'a> {
+    Box::new(t)
+}

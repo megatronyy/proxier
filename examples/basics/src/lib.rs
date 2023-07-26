@@ -14,7 +14,6 @@ mod trait_from_into;
 mod trait_deref;
 mod std_macros;
 mod lib_tokio;
-mod std_lifetime;
 mod std_closure;
 mod unsafe_base;
 mod unsafe_fn;
@@ -22,6 +21,14 @@ mod unsafe_fn_c;
 mod std_iterator;
 mod struct_array;
 mod lib_structopt;
+mod std_lifetime_variance1;
+mod std_lifetime;
+mod std_lifetime_variance2;
+mod std_lifetime2;
+mod std_lifetime3;
+mod std_lifetime4;
+mod std_lifetime_trait;
+mod std_lifetime5;
 
 #[cfg(test)]
 mod tests {

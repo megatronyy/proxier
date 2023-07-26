@@ -4,5 +4,5 @@ async fn say_world() {
 
 fn main() {
     let op = say_world();
-    op.await;
+    // op.await;
 }
