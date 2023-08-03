@@ -2,7 +2,8 @@ async fn say_world() {
     println!("hello world");
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let op = say_world();
-    // op.await;
+    op.await?;
 }

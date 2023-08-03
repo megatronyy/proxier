@@ -13,7 +13,8 @@ fn print_for_string(string: Box<dyn Any>) {
     }
 }
 
-fn main() {
+#[tokio::main]
+async fn main() {
     let my_string = "Hello World".to_string();
     print_for_string(Box::new(my_string));
     print_for_string(Box::new(0i8));
